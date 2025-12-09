@@ -46,8 +46,12 @@
   </main>
 
   <!-- App scripts -->
-  <script src="src/app.js"></script>
-  <script src="src/router.js"></script>
+  <!-- 
+  <script src="src/app.js"></script>  
+  <script src="src/router.js"></script> - no need to call it - since its imported internally in app.js
+  --> 
+  <script type="module" src="src/app.js"></script>
+
 
   <!-- Register the service worker -->
   <script>
