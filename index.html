@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Mobile-first viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ZetteNote</title>
+
+  <!-- App Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Basic CSS -->
+  <link rel="stylesheet" href="styles/main.css" />
+
+  <!-- App Icons (added later) -->
+  <link rel="icon" href="icons/icon-192.png" type="image/png" />
+
+  <!-- Theme color for browser and PWA UI -->
+  <meta name="theme-color" content="#2b2b2b">
+</head>
+
+<body>
+
+  <!-- Root container where our SPA renders -->
+  <div id="app">
+    <!-- Placeholder content until SPA loads -->
+    <div class="loading-screen">
+      <h1>ZetteNote</h1>
+      <p>Loading your study notes...</p>
+    </div>
+  </div>
+
+  <!-- App scripts -->
+  <script src="src/app.js"></script>
+  <script src="src/router.js"></script>
+
+  <!-- Register the service worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered', reg))
+          .catch(err => console.log('Service Worker registration failed', err));
+      });
+    }
+  </script>
+
+</body>
+</html>
