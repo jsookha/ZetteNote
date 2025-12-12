@@ -11,7 +11,7 @@ import { SearchView } from "./ui/SearchView.js";
 import { SettingsView } from "./ui/SettingsView.js";
 
 const routes = {
-  "#/": NoteListView,
+  "#/": NoteListView,       // default list view by visiting index.html
   "#/notes": NoteListView,
   "#/note": NoteView,       // expects ID param: #/note/123
   "#/edit": EditorView,     // expects ID param: #/edit/123
