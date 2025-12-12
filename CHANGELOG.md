@@ -172,7 +172,5 @@
 - Export/import functionality ensures student data portability.
 - Future enhancements planned: full Markdown rendering library, tag filtering, drag-and-drop sorting.
 
-```
-
 ---
 
