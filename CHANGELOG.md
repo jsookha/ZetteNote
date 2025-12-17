@@ -1,5 +1,15 @@
 # ZetteNote — Changelog
 
+### 17/12/2025 
+## ADDED: icons
+- icon set uploaded to new `icons` folder 
+- updated `manifest.json` to reference icons
+
+### 12/12/2025 
+## UPDATED: minor 
+- minor updates to revisit issues regarding code not being referenced correctly 
+
+### 7-9/12/2025
 ## [Stage 0] Project Concept & Planning
 - **Idea**: Develop a student-focused, offline-capable note-taking PWA inspired by Zettelkasten methodology.
 - **Target audience**: Tertiary-level IT/programming students.
