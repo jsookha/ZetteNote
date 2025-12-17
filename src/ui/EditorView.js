@@ -1,4 +1,9 @@
-import { get, put } from "../storage/idb-helpers.js";
+//
+// EditorView.js - Create or edit a note
+// Import from db.js instead of idb-helpers.js
+//
+
+import { getNote, createNote, updateNote } from "../storage/db.js";
 
 export async function EditorView(container, noteId) {
 
@@ -8,7 +13,7 @@ export async function EditorView(container, noteId) {
   // 1. If editing, load note
   // ---------------------------
   if (noteId) {
-    note = await get("notes", noteId);
+    note = await getNote(noteId);
   }
 
   // ---------------------------
@@ -47,23 +52,21 @@ export async function EditorView(container, noteId) {
 
     const tags = tagsText.length ? tagsText.split(",").map(t => t.trim()) : [];
 
-    const now = new Date().toISOString();
+    let savedNote;
 
-    // Prepare note object
-    const newNote = {
-      id: note ? note.id : crypto.randomUUID(),
-      title,
-      content,
-      tags,
-      createdAt: note ? note.createdAt : now,
-      updatedAt: now
-    };
+    if (note) {
+      // Update existing note
+      note.title = title;
+      note.content = content;
+      note.tags = tags;
+      savedNote = await updateNote(note);
+    } else {
+      // Create new note
+      savedNote = await createNote({ title, content, tags });
+    }
 
-    // Save to IndexedDB
-    await put("notes", newNote);
-
-    // Redirect back to the note view or list
-    window.location.hash = `#/note/${newNote.id}`;
+    // Redirect to the note view
+    window.location.hash = `#/note/${savedNote.id}`;
   });
 
   // ---------------------------

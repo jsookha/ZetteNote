@@ -1,4 +1,9 @@
-import { dbGetAll, clearStore } from "../storage/idb-helpers.js";
+//
+// SettingsView.js - App settings and data management
+// Import from db.js instead of idb-helpers.js
+//
+
+import { listNotes, createNote, clearAllNotes } from "../storage/db.js";
 
 export function SettingsView(container) {
 
@@ -66,8 +71,8 @@ export function SettingsView(container) {
     } else if (mode === "dark") {
       document.documentElement.classList.add("dark");
     } else {
-      // system theme
-      const prefersDark = window.matchMedia("(prefers-colour-scheme: dark)").matches;
+      // system theme - note: CSS uses 'prefers-color-scheme' not 'prefers-colour-scheme'
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       if (prefersDark) document.documentElement.classList.add("dark");
       else document.documentElement.classList.remove("dark");
     }
@@ -77,7 +82,7 @@ export function SettingsView(container) {
   // 2. Export notes
   // -------------------------------------------------------
   container.querySelector("#export-notes").addEventListener("click", async () => {
-    const notes = await getAll("notes");
+    const notes = await listNotes();
     const json = JSON.stringify(notes, null, 2);
 
     const blob = new Blob([json], { type: "application/json" });
@@ -112,11 +117,18 @@ export function SettingsView(container) {
         return;
       }
 
-      // Save new notes
+      // Save imported notes
       for (const n of importedNotes) {
-        // Ensure ID exists (important!)
-        if (!n.id) n.id = crypto.randomUUID();
-        await put("notes", n);
+        // Ensure the note has all required fields
+        const noteData = {
+          title: n.title || "Untitled",
+          content: n.content || "",
+          tags: n.tags || []
+        };
+        
+        // If the note has an id, we could check if it exists and update,
+        // but for simplicity, we'll create new notes with new IDs
+        await createNote(noteData);
       }
 
       alert("Notes imported successfully!");
@@ -135,7 +147,7 @@ export function SettingsView(container) {
     const ok = confirm("Are you sure you want to delete ALL notes?");
     if (!ok) return;
 
-    await clearStore("notes");
+    await clearAllNotes();
     alert("All notes have been deleted.");
     window.location.hash = "#/notes";
   });

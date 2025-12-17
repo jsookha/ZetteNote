@@ -116,6 +116,21 @@ export function listNotesByUpdated() {
   return dbGetAllByIndex(db, "notes", "by_updated", IDBKeyRange.lowerBound(0));
 }
 
+/**
+ * Clear all notes from the database.
+ * Used for the "Reset App" feature.
+ */
+export async function clearAllNotes() {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("notes", "readwrite");
+    const store = tx.objectStore("notes");
+    const request = store.clear();
+
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
 
 // ---------------------------------------------
 // TAG FUNCTIONS

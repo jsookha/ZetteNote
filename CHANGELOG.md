@@ -4,6 +4,7 @@
 ## ADDED: icons
 - icon set uploaded to new `icons` folder 
 - updated `manifest.json` to reference icons
+- updated `src\ui\` files to correctly* reference db helper code
 
 ### 12/12/2025 
 ## UPDATED: minor 

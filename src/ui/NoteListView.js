@@ -1,9 +1,14 @@
-import { dbGetAll } from "../storage/idb-helpers.js";
+//
+// NoteListView.js - List all notes
+// Import from db.js instead of idb-helpers.js
+//
+
+import { listNotes } from "../storage/db.js";
 
 export async function NoteListView(container) {
 
   // 1. Load notes from IndexedDB
-  let notes = await dbGetAll("notes");
+  let notes = await listNotes();
 
   // 2. Sort newest first
   notes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));

@@ -1,4 +1,9 @@
-import { get, remove } from "../storage/idb-helpers.js";
+// 
+// NoteView.js - View a single note
+// Import from db.js instead of idb-helpers.js
+//
+
+import { getNote, deleteNote } from "../storage/db.js";
 
 export async function NoteView(container, noteId) {
 
@@ -10,7 +15,7 @@ export async function NoteView(container, noteId) {
   // ---------------------------
   // 1. Load note from IndexedDB
   // ---------------------------
-  const note = await get("notes", noteId);
+  const note = await getNote(noteId);
 
   if (!note) {
     container.innerHTML = "<p>Note not found.</p>";
@@ -75,7 +80,7 @@ export async function NoteView(container, noteId) {
     const ok = confirm("Are you sure you want to delete this note?");
     if (!ok) return;
 
-    await remove("notes", noteId);
+    await deleteNote(noteId);
     window.location.hash = "#/notes";
   });
 }

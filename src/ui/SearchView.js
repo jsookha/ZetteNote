@@ -1,9 +1,14 @@
-import { dbGetAll } from "../storage/idb-helpers.js";
+//
+// SearchView.js - Search through notes
+// Import from db.js instead of idb-helpers.js
+//
+
+import { listNotes } from "../storage/db.js";
 
 export async function SearchView(container) {
 
   // Load all notes (fast for small/medium usage)
-  const allNotes = await dbGetAll("notes");
+  const allNotes = await listNotes();
 
   // Build UI
   container.innerHTML = `
