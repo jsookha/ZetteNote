@@ -1,4 +1,4 @@
-import { getAll, clearStore } from "../storage/idb-helpers.js";
+import { dbGetAll, clearStore } from "../storage/idb-helpers.js";
 
 export function SettingsView(container) {
 
