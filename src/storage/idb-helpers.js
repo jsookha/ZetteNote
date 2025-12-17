@@ -46,10 +46,17 @@ function withStore(db, storeName, mode, callback) {
     const tx = db.transaction(storeName, mode);
     const store = tx.objectStore(storeName);
 
-    const result = callback(store);
+    const request = callback(store);
 
-    tx.oncomplete = () => resolve(result);
-    tx.onerror = () => reject(tx.error);
+    // Handle the request result
+    if (request && request.onsuccess !== undefined) {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    } else {
+      // For operations that don't return a request (like put without returning)
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    }
   });
 }
 
@@ -67,7 +74,7 @@ export function dbGet(db, storeName, key) {
  */
 export function dbSet(db, storeName, value) {
   return withStore(db, storeName, "readwrite", (store) => {
-    store.put(value);
+    return store.put(value);
   });
 }
 
@@ -76,7 +83,7 @@ export function dbSet(db, storeName, value) {
  */
 export function dbDelete(db, storeName, key) {
   return withStore(db, storeName, "readwrite", (store) => {
-    store.delete(key);
+    return store.delete(key);
   });
 }
 

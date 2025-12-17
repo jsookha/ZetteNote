@@ -11,46 +11,69 @@
   <!-- App Manifest -->
   <link rel="manifest" href="manifest.json" />
 
+  <!-- Google Fonts - Fira Sans & Fira Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Basic CSS -->
   <link rel="stylesheet" href="styles/main.css" />
 
-  <!-- App Icons (added later) -->
+  <!-- App Icons -->
   <link rel="icon" href="icons/icon-192.png" type="image/png" />
 
   <!-- Theme color for browser and PWA UI -->
   <meta name="theme-color" content="#2b2b2b">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ZetteNote">
 </head>
 
 <body>
   <!-- Header / Navigation Menu -->
-  <header> 
-    <h1>ZetteNote</h1>
-    <nav>
-      <ul>
-        <li><a href="#/notes">All Notes</a></li>
-        <li><a href="#/search">Search</a></li>
-        <li><a href="#/settings">Settings</a></li>
-        <li><a href="#/edit/">New Note</a></li>
-      </ul>
-    </nav>
+  <header class="app-header"> 
+    <div class="header-content">
+      <h1 class="app-title">ZetteNote</h1>
+      <nav class="main-nav">
+        <a href="#/notes" class="nav-link">Notes</a>
+        <a href="#/search" class="nav-link">Search</a>
+        <a href="#/settings" class="nav-link">Settings</a>
+      </nav>
+    </div>
   </header>   
 
   <!-- Root container where our SPA renders -->
-  <main id="app">
-    <!-- old code-->
+  <main id="app" class="app-main">
     <div class="loading-screen">
+      <div class="loading-spinner"></div>
       <p>Loading your study notes...</p>
     </div>
-    <!-- end of old code -->
   </main>
 
-  <!-- App scripts -->
-  <!-- 
-  <script src="src/app.js"></script>  
-  <script src="src/router.js"></script> - no need to call it - since its imported internally in app.js
-  --> 
-  <script type="module" src="src/app.js"></script>
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="#/notes" class="bottom-nav-item">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">Notes</span>
+    </a>
+    <a href="#/edit/" class="bottom-nav-item bottom-nav-new">
+      <span class="nav-icon">➕</span>
+      <span class="nav-label">New</span>
+    </a>
+    <a href="#/search" class="bottom-nav-item">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-label">Search</span>
+    </a>
+    <a href="#/settings" class="bottom-nav-item">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Settings</span>
+    </a>
+  </nav>
 
+  <!-- App scripts -->
+  <script type="module" src="src/app.js"></script>
 
   <!-- Register the service worker -->
   <script>
