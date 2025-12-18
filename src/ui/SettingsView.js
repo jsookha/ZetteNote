@@ -1,45 +1,64 @@
 //
 // SettingsView.js - App settings and data management
-// Import from db.js instead of idb-helpers.js
 //
 
 import { listNotes, createNote, clearAllNotes } from "../storage/db.js";
+import { exportNotes, importNotes } from "../utils/exportImport.js";
 
 export function SettingsView(container) {
 
   container.innerHTML = `
-    <h2>Settings</h2>
+    <div class="settings-view">
+      <h2>Settings</h2>
 
-    <section class="settings-section">
-      <h3>Appearance</h3>
+      <section class="settings-section">
+        <h3>Appearance</h3>
 
-      <label>
-        <input type="radio" name="theme" value="system">
-        Follow system theme
-      </label>
+        <label>
+          <input type="radio" name="theme" value="system">
+          Follow system theme
+        </label>
 
-      <label>
-        <input type="radio" name="theme" value="light">
-        Light theme
-      </label>
+        <label>
+          <input type="radio" name="theme" value="light">
+          Light theme
+        </label>
 
-      <label>
-        <input type="radio" name="theme" value="dark">
-        Dark theme
-      </label>
-    </section>
+        <label>
+          <input type="radio" name="theme" value="dark">
+          Dark theme
+        </label>
+      </section>
 
-    <section class="settings-section">
-      <h3>Data</h3>
-      <button id="export-notes" class="button-primary">Export Notes</button>
-      <button id="import-notes" class="button-secondary">Import Notes</button>
-      <input type="file" id="import-file" accept=".json" style="display:none;">
-    </section>
+      <section class="settings-section">
+        <h3>Data Management</h3>
+        
+        <div class="settings-info">
+          <p>Export your notes to create a backup, or import notes from a previous backup.</p>
+        </div>
 
-    <section class="settings-section">
-      <h3>Reset App</h3>
-      <button id="reset-app" class="button-danger">Clear all notes</button>
-    </section>
+        <div class="settings-buttons">
+          <button id="export-notes" class="button-primary">
+            Export Notes (Backup)
+          </button>
+          
+          <input type="file" id="import-file" accept=".json" style="display:none;">
+          <button id="import-notes" class="button-secondary">
+            Import Notes (Restore)
+          </button>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>Danger Zone</h3>
+        
+        <div class="settings-warning">
+          <p>⚠️ This action cannot be undone. Please export your notes first!</p>
+        </div>
+        
+        <button id="reset-app" class="button-danger">Clear All Notes</button>
+      </section>
+    </div>
   `;
 
   // -------------------------------------------------------
@@ -94,6 +113,13 @@ export function SettingsView(container) {
     a.click();
 
     URL.revokeObjectURL(url);
+
+    // ** new code added **
+    const success = await exportNotes();
+    if (success) {
+      // Visual feedback could be added here
+    }
+    // ** end of new code added ** 
   });
 
   // -------------------------------------------------------
@@ -109,6 +135,14 @@ export function SettingsView(container) {
     if (!file) return;
 
     try {
+      // ** new code added **
+      if (file) {
+        await importNotes(file, true); // true = merge mode
+      }
+      // Reset file input
+      fileInput.value = '';
+      // ** end of new code added ** 
+
       const text = await file.text();
       const importedNotes = JSON.parse(text);
 
@@ -144,6 +178,20 @@ export function SettingsView(container) {
   // 4. Reset app
   // -------------------------------------------------------
   container.querySelector("#reset-app").addEventListener("click", async () => {
+    const ok = confirm("⚠️ Are you ABSOLUTELY sure you want to delete ALL notes? This cannot be undone!\n\nConsider exporting your notes first.");
+    if (!ok) return;
+
+    const doubleCheck = confirm("Last chance! Delete everything?");
+    if (!doubleCheck) return;
+
+    await clearAllNotes();
+    alert("All notes have been deleted.");
+    window.location.hash = "#/notes";
+  });
+  
+  // ** original code **
+  /*
+  container.querySelector("#reset-app").addEventListener("click", async () => {
     const ok = confirm("Are you sure you want to delete ALL notes?");
     if (!ok) return;
 
@@ -151,4 +199,6 @@ export function SettingsView(container) {
     alert("All notes have been deleted.");
     window.location.hash = "#/notes";
   });
+  */
+  // ** end of original code **
 }

@@ -513,6 +513,66 @@ h3 {
   color: var(--text-tertiary);
 }
 
+/* ==================== Select/Dropdown Styling ==================== */
+.tools select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23003344' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  padding-right: var(--spacing-xl);
+}
+
+.tools select:hover {
+  border-color: var(--accent-primary);
+}
+
+.tools select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(190, 193, 135, 0.2);
+}
+
+html.dark .tools select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23f3f4f4' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+}
+
+/* ==================== Tools Bar Improvements ==================== */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  align-items: center;
+}
+
+.tools label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.tools input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-primary);
+}
+
 /* ==================== Search View ==================== */
 .search-box {
   width: 100%;
@@ -607,6 +667,58 @@ h3 {
 
 .settings-section input[type="radio"] {
   margin-right: var(--spacing-sm);
+}
+
+/* ==================== Settings View Enhancements ==================== */
+.settings-view {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.settings-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.settings-buttons button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.settings-info {
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-md);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.settings-info p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.settings-warning {
+  padding: var(--spacing-md);
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-md);
+  border-left: 3px solid var(--danger);
+}
+
+.settings-warning p {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.9rem;
 }
 
 /* ==================== Stage 5 Enhancements ==================== */
