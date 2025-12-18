@@ -71,7 +71,7 @@ export async function NoteView(container, noteId) {
       </div>
 
       <div class="backlinks">
-        <h3>🔗 Linked From</h3>
+        <h3>Linked From</h3>
         ${backlinks.length === 0 
           ? "<p><em>No backlinks yet. This note hasn't been referenced by other notes.</em></p>"
           : `<ul class="backlinks-list">

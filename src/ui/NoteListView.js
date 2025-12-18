@@ -76,14 +76,14 @@ export async function NoteListView(container) {
     // Build HTML
     container.innerHTML = `
       <div class="note-list-view">
-        <h2>📚 All Notes</h2>
+        <h2>All Notes</h2>
 
         <!-- Search Bar -->
         <div class="search-bar">
           <input 
             type="text" 
             id="search-input" 
-            placeholder="🔍 Search notes..."
+            placeholder="∴ Search notes..."
             value="${searchTerm}"
           />
         </div>

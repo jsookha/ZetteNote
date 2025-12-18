@@ -5,7 +5,8 @@
 
 /* ==================== CSS Variables ==================== */
 :root {
-  /* Colors - Light Mode */
+  /* Colours - Light Mode - original */
+  /*
   --bg-primary: #ffffff;
   --bg-secondary: #f5f5f5;
   --bg-tertiary: #e8e8e8;
@@ -16,14 +17,35 @@
   --accent-hover: #1d4ed8;
   --border-color: #e0e0e0;
   --shadow: rgba(0, 0, 0, 0.1);
-  
-  /* Semantic Colors */
+  */
+
+  /* Nordic Colour Palette */
+  --lighthouse: #f3f4f4;
+  --homeopathic-lavender: #e5e0ec;
+  --lavender-pillow: #c5b9d3;
+  --orchid-hue: #e5e999;
+  --kiss-a-frog: #bec187;
+  --nordic-noir: #003344;
+
+  /* Applied Colours - Light Mode */
+  --bg-primary: var(--lighthouse);
+  --bg-secondary: var(--homeopathic-lavender);
+  --bg-tertiary: var(--lavender-pillow);
+  --text-primary: var(--nordic-noir);
+  --text-secondary: #004d66;
+  --text-tertiary: #7a8f9e;
+  --accent-primary: var(--kiss-a-frog);
+  --accent-hover: #a8ab6f;
+  --border-color: var(--lavender-pillow);
+  --shadow: rgba(0, 51, 68, 0.08);
+
+  /* Semantic Colours */
   --success: #10b981;
   --danger: #ef4444;
   --warning: #f59e0b;
   
   /* Fonts */
-  --font-sans: 'Fira Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Mono', 'Courier New', monospace;
   
   /* Spacing */
@@ -40,7 +62,8 @@
   --border-radius: 8px;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode Variables - original */
+/*
 html.dark {
   --bg-primary: #1a1a1a;
   --bg-secondary: #2a2a2a;
@@ -52,6 +75,20 @@ html.dark {
   --accent-hover: #2563eb;
   --border-color: #404040;
   --shadow: rgba(0, 0, 0, 0.3);
+}
+*/
+/* Dark Mode Variables - twist based on the Nordic colour scheme */
+html.dark {
+  --bg-primary: #0d1b1f;
+  --bg-secondary: var(--nordic-noir);
+  --bg-tertiary: #004d66;
+  --text-primary: var(--lighthouse);
+  --text-secondary: var(--homeopathic-lavender);
+  --text-tertiary: #8a9ba8;
+  --accent-primary: var(--orchid-hue);
+  --accent-hover: #d4d4a8;
+  --border-color: #004d66;
+  --shadow: rgba(0, 0, 0, 0.4);
 }
 
 /* ==================== Global Reset ==================== */
@@ -448,6 +485,34 @@ h3 {
   flex-wrap: wrap;
 }
 
+
+/* Search Bar Improvements */
+.search-bar {
+  margin-bottom: var(--spacing-md);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-bar input::placeholder {
+  color: var(--text-tertiary);
+}
+
 /* ==================== Search View ==================== */
 .search-box {
   width: 100%;
@@ -807,8 +872,9 @@ html.dark mark {
   
   .floating-button {
     bottom: var(--spacing-lg);
+    display: none;  /* Hide on desktop since it's in the nav */
   }
-  
+
   .note-card {
     padding: var(--spacing-lg);
   }

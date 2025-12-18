@@ -47,7 +47,7 @@ export async function EditorView(container, noteId, query = {}) {
   // ---------------------------
   container.innerHTML = `
     <div class="editor-view">
-      <h2>${isNew ? "📝 New Note" : "✏️ Edit Note"}</h2>
+      <h2>${isNew ? "New Note" : "Edit Note"}</h2>
 
       <div class="editor-form">
 

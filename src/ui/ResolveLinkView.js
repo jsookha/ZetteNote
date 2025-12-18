@@ -43,7 +43,7 @@ export async function resolveLinkView(container, encodedTitle) {
   // No match → show a "missing note" placeholder
   container.innerHTML = `
     <div class="missing-note-view">
-      <h2>📝 Note Not Found</h2>
+      <h2>Note Not Found</h2>
       <p>No note titled <strong>"${title}"</strong> exists yet.</p>
       <p>Would you like to create it?</p>
 
