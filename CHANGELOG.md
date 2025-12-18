@@ -1,14 +1,76 @@
 # ZetteNote — Changelog
 
+### 18/12/2025
+
+## [Stage 5] Note Linking & Advanced Features
+### Stage 5.1 — Tags
+- Add and manage tags for notes
+- Store tags in IndexedDB `tags` object store
+
+### Stage 5.2 — Backlinks
+- Automatically track which notes link to others
+- Store relationships in `backlinks` object store
+- Display backlinks in note view
+
+### Stage 5.3 — Auto-title Inject
+- If new note created without a title, automatically assign a placeholder title
+- Ensures all notes have unique identifiers
+
+### Stage 5.4 — Search Enhancement
+- Search indexes both titles and content
+- Dynamic search results update as user types
+
+### Stage 5.5 — Note Metadata
+- Store `created_at` and `updated_at` timestamps
+- Display metadata in note view
+
+---
+
+## [Stage 6] Offline & Data Portability
+- **Service Worker**:
+  - Caches core assets for offline-first functionality
+- **Export Notes**:
+  - Download all notes as JSON file
+- **Import Notes**:
+  - Upload JSON file to restore notes
+  - Auto-generates IDs if missing
+  - Alerts on invalid JSON
+- Fully functional offline usage tested on desktop and mobile
+
+---
+
+## [Stage 7] UI/UX Polishing & Mobile-first Enhancements
+- **Responsive design**:
+  - Mobile-first layout, scaling for tablet and desktop
+  - Navigation menu and note list adapt to screen size
+- **Markdown preview in editor**:
+  - Live rendering of basic Markdown: bold, italic, inline code
+- **Dark/Light mode toggle**:
+  - Switch between dark and light themes
+  - CSS implemented with `.dark-mode` class
+- **Improved note navigation**:
+  - Clickable note items on small screens
+  - Visual hover states for interactivity
+- **Minor visual enhancements**:
+  - Buttons styled with hover states
+  - Inputs and textareas full width and rounded
+  - Markdown preview pane styled for readability
+
+---
+
 ### 17/12/2025 
 ## ADDED: icons
 - icon set uploaded to new `icons` folder 
 - updated `manifest.json` to reference icons
 - updated `src\ui\` files to correctly* reference db helper code
 
+---
+
 ### 12/12/2025 
-## UPDATED: minor 
-- minor updates to revisit issues regarding code not being referenced correctly 
+## UPDATED: major
+- Updates to revisit issues regarding code not being referenced correctly 
+
+---
 
 ### 7-9/12/2025
 ## [Stage 0] Project Concept & Planning
@@ -118,62 +180,6 @@
 ### Stage 4.5 — Settings
 - Placeholder for settings page
 - Includes buttons for future features (export/import, theme toggle)
-
----
-
-## [Stage 5] Note Linking & Advanced Features
-### Stage 5.1 — Tags
-- Add and manage tags for notes
-- Store tags in IndexedDB `tags` object store
-
-### Stage 5.2 — Backlinks
-- Automatically track which notes link to others
-- Store relationships in `backlinks` object store
-- Display backlinks in note view
-
-### Stage 5.3 — Auto-title Inject
-- If new note created without a title, automatically assign a placeholder title
-- Ensures all notes have unique identifiers
-
-### Stage 5.4 — Search Enhancement
-- Search indexes both titles and content
-- Dynamic search results update as user types
-
-### Stage 5.5 — Note Metadata
-- Store `created_at` and `updated_at` timestamps
-- Display metadata in note view
-
----
-
-## [Stage 6] Offline & Data Portability
-- **Service Worker**:
-  - Caches core assets for offline-first functionality
-- **Export Notes**:
-  - Download all notes as JSON file
-- **Import Notes**:
-  - Upload JSON file to restore notes
-  - Auto-generates IDs if missing
-  - Alerts on invalid JSON
-- Fully functional offline usage tested on desktop and mobile
-
----
-
-## [Stage 7] UI/UX Polishing & Mobile-first Enhancements
-- **Responsive design**:
-  - Mobile-first layout, scaling for tablet and desktop
-  - Navigation menu and note list adapt to screen size
-- **Markdown preview in editor**:
-  - Live rendering of basic Markdown: bold, italic, inline code
-- **Dark/Light mode toggle**:
-  - Switch between dark and light themes
-  - CSS implemented with `.dark-mode` class
-- **Improved note navigation**:
-  - Clickable note items on small screens
-  - Visual hover states for interactivity
-- **Minor visual enhancements**:
-  - Buttons styled with hover states
-  - Inputs and textareas full width and rounded
-  - Markdown preview pane styled for readability
 
 ---
 
