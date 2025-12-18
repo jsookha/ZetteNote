@@ -92,7 +92,7 @@ export async function NoteListView(container) {
         <div class="tools">
           <label>
             Sort by:
-            <select id="sort-select">
+            <select id="sort-select" class="search-bar">
               <option value="updated" ${sortBy === "updated" ? "selected" : ""}>Last Updated</option>
               <option value="title-asc" ${sortBy === "title-asc" ? "selected" : ""}>Title A–Z</option>
               <option value="title-desc" ${sortBy === "title-desc" ? "selected" : ""}>Title Z–A</option>
