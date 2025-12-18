@@ -1,9 +1,13 @@
 // 
 // NoteView.js - View a single note
-// Import from db.js instead of idb-helpers.js
+// Stage 5 Updates:
+// - Markdown rendering
+// - Backlinks display
+// - Wikilink support
 //
 
-import { getNote, deleteNote } from "../storage/db.js";
+import { getNote, deleteNote, listNotes } from "../storage/db.js";
+import { renderMarkdown } from "../utils/markdown.js";
 
 export async function NoteView(container, noteId) {
 
@@ -18,24 +22,40 @@ export async function NoteView(container, noteId) {
   const note = await getNote(noteId);
 
   if (!note) {
-    container.innerHTML = "<p>Note not found.</p>";
+    container.innerHTML = `
+      <div class="note-view">
+        <h2>Note Not Found</h2>
+        <p>This note may have been deleted.</p>
+        <button onclick="window.location.hash='#/notes'" class="button-secondary">
+          Back to Notes
+        </button>
+      </div>
+    `;
     return;
   }
 
   // ---------------------------
-  // 2. Format tags
+  // 2. Compute backlinks
+  // ---------------------------
+  const allNotes = await listNotes();
+  const backlinks = allNotes.filter(n => 
+    n.id !== noteId && n.content.includes(`[[${note.title}]]`)
+  );
+
+  // ---------------------------
+  // 3. Format tags
   // ---------------------------
   const tagString = (note.tags && note.tags.length)
-    ? note.tags.map(t => `<span class="tag">${t}</span>`).join(" ")
+    ? note.tags.map(t => `<span class="tag">#${t}</span>`).join(" ")
     : "<em>No tags</em>";
 
   // ---------------------------
-  // 3. Build viewer UI
+  // 4. Build viewer UI
   // ---------------------------
   container.innerHTML = `
     <div class="note-view">
 
-      <h2>${note.title}</h2>
+      <h2>${note.title || "(Untitled Note)"}</h2>
 
       <div class="note-meta">
         <small>Created: ${new Date(note.createdAt).toLocaleString()}</small><br>
@@ -47,7 +67,23 @@ export async function NoteView(container, noteId) {
       </div>
 
       <div class="note-content">
-        <p>${note.content.replace(/\n/g, "<br>")}</p>
+        ${renderMarkdown(note.content)}
+      </div>
+
+      <div class="backlinks">
+        <h3>🔗 Linked From</h3>
+        ${backlinks.length === 0 
+          ? "<p><em>No backlinks yet. This note hasn't been referenced by other notes.</em></p>"
+          : `<ul class="backlinks-list">
+              ${backlinks.map(b => `
+                <li>
+                  <a href="#/note/${b.id}" class="backlink-item">
+                    ${b.title || "(Untitled)"}
+                  </a>
+                </li>
+              `).join("")}
+            </ul>`
+        }
       </div>
 
       <div class="note-buttons">
@@ -60,24 +96,24 @@ export async function NoteView(container, noteId) {
   `;
 
   // ---------------------------
-  // 4. Edit button
+  // 5. Edit button
   // ---------------------------
   container.querySelector("#edit-note").addEventListener("click", () => {
     window.location.hash = `#/edit/${noteId}`;
   });
 
   // ---------------------------
-  // 5. Back button
+  // 6. Back button
   // ---------------------------
   container.querySelector("#back-notes").addEventListener("click", () => {
     window.location.hash = "#/notes";
   });
 
   // ---------------------------
-  // 6. Delete button
+  // 7. Delete button
   // ---------------------------
   container.querySelector("#delete-note").addEventListener("click", async () => {
-    const ok = confirm("Are you sure you want to delete this note?");
+    const ok = confirm(`Are you sure you want to delete "${note.title || 'this note'}"?`);
     if (!ok) return;
 
     await deleteNote(noteId);
