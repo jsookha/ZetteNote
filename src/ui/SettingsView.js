@@ -31,6 +31,22 @@ export function SettingsView(container) {
       </section>
 
       <section class="settings-section">
+        <h3>Install App</h3>
+        
+        <div class="settings-info">
+          <p>Install ZetteNote on your device for quick access and offline use.</p>
+        </div>
+
+        <button id="install-btn" class="button-primary" style="display: none;">
+          Install ZetteNote
+        </button>
+        
+        <div id="install-instructions" style="display: none;">
+          <p><small>To install: Look for the install icon in your browser's address bar, or check your browser's menu for "Install" or "Add to Home Screen".</small></p>
+        </div>
+      </section>
+
+      <section class="settings-section">
         <h3>Data Management</h3>
         
         <div class="settings-info">
@@ -64,16 +80,13 @@ export function SettingsView(container) {
   // -------------------------------------------------------
   // 1. Theme settings
   // -------------------------------------------------------
-
   const themeRadios = container.querySelectorAll("input[name='theme']");
   const storedTheme = localStorage.getItem("theme") || "system";
 
-  // Pre-select saved theme
   themeRadios.forEach(r => {
     if (r.value === storedTheme) r.checked = true;
   });
 
-  // Apply theme immediately
   applyTheme(storedTheme);
 
   themeRadios.forEach(radio => {
@@ -90,7 +103,6 @@ export function SettingsView(container) {
     } else if (mode === "dark") {
       document.documentElement.classList.add("dark");
     } else {
-      // system theme - note: CSS uses 'prefers-color-scheme' not 'prefers-colour-scheme'
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       if (prefersDark) document.documentElement.classList.add("dark");
       else document.documentElement.classList.remove("dark");
@@ -98,84 +110,77 @@ export function SettingsView(container) {
   }
 
   // -------------------------------------------------------
-  // 2. Export notes
+  // 2. Install prompt handling
+  // -------------------------------------------------------
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installBtn = container.querySelector('#install-btn');
+    if (installBtn) {
+      installBtn.style.display = 'block';
+    }
+  });
+
+  const installBtn = container.querySelector('#install-btn');
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        const instructions = container.querySelector('#install-instructions');
+        if (instructions) {
+          instructions.style.display = 'block';
+        }
+        return;
+      }
+      
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      }
+      
+      deferredPrompt = null;
+      installBtn.style.display = 'none';
+    });
+  }
+
+  // Check if already installed
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    const installBtn = container.querySelector('#install-btn');
+    if (installBtn) {
+      installBtn.textContent = '✓ App Installed';
+      installBtn.disabled = true;
+      installBtn.style.display = 'block';
+    }
+  }
+
+  // -------------------------------------------------------
+  // 3. Export notes
   // -------------------------------------------------------
   container.querySelector("#export-notes").addEventListener("click", async () => {
-    const notes = await listNotes();
-    const json = JSON.stringify(notes, null, 2);
-
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "zetteNotes-export.json";
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-    // ** new code added **
-    const success = await exportNotes();
-    if (success) {
-      // Visual feedback could be added here
-    }
-    // ** end of new code added ** 
+    await exportNotes();
   });
 
   // -------------------------------------------------------
-  // 3. Import notes
+  // 4. Import notes
   // -------------------------------------------------------
-  const importBtn = container.querySelector("#import-notes");
+  const importBtnElement = container.querySelector("#import-notes");
   const fileInput = container.querySelector("#import-file");
 
-  importBtn.addEventListener("click", () => fileInput.click());
+  importBtnElement.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", async (evt) => {
     const file = evt.target.files[0];
-    if (!file) return;
-
-    try {
-      // ** new code added **
-      if (file) {
-        await importNotes(file, true); // true = merge mode
-      }
-      // Reset file input
-      fileInput.value = '';
-      // ** end of new code added ** 
-
-      const text = await file.text();
-      const importedNotes = JSON.parse(text);
-
-      if (!Array.isArray(importedNotes)) {
-        alert("Invalid file format.");
-        return;
-      }
-
-      // Save imported notes
-      for (const n of importedNotes) {
-        // Ensure the note has all required fields
-        const noteData = {
-          title: n.title || "Untitled",
-          content: n.content || "",
-          tags: n.tags || []
-        };
-        
-        // If the note has an id, we could check if it exists and update,
-        // but for simplicity, we'll create new notes with new IDs
-        await createNote(noteData);
-      }
-
-      alert("Notes imported successfully!");
-      window.location.hash = "#/notes";
-
-    } catch (err) {
-      console.error(err);
-      alert("Failed to import notes.");
+    if (file) {
+      await importNotes(file, true);
     }
+    fileInput.value = '';
   });
 
   // -------------------------------------------------------
-  // 4. Reset app
+  // 5. Reset app
   // -------------------------------------------------------
   container.querySelector("#reset-app").addEventListener("click", async () => {
     const ok = confirm("⚠️ Are you ABSOLUTELY sure you want to delete ALL notes? This cannot be undone!\n\nConsider exporting your notes first.");
@@ -188,17 +193,4 @@ export function SettingsView(container) {
     alert("All notes have been deleted.");
     window.location.hash = "#/notes";
   });
-  
-  // ** original code **
-  /*
-  container.querySelector("#reset-app").addEventListener("click", async () => {
-    const ok = confirm("Are you sure you want to delete ALL notes?");
-    if (!ok) return;
-
-    await clearAllNotes();
-    alert("All notes have been deleted.");
-    window.location.hash = "#/notes";
-  });
-  */
-  // ** end of original code **
 }
