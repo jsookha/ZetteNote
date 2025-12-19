@@ -1,11 +1,13 @@
 {
   "name": "ZetteNote",
   "short_name": "ZetteNote",
-  "start_url": "/",
+  "description": "Offline-first note-taking app for students using Zettelkasten methodology",
+  "start_url": "/ZetteNote/",
+  "scope": "/ZetteNote/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2b2b2b",
-  "description": "An offline-first study notebook inspired by the Zettelkasten method.",
+  "background_color": "#f3f4f4",
+  "theme_color": "#003344",
+  "orientation": "any",
   "icons": [
     {
       "src": "icons/icon-32.png",
@@ -18,14 +20,16 @@
       "type": "image/png"
     },
     {
-      "src": "icons/icon-192.png",
+      "src": "/ZetteNote/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "/ZetteNote/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
