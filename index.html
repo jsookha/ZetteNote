@@ -8,8 +8,12 @@
 
   <title>ZetteNote</title>
 
-  <!-- App Manifest -->
-  <link rel="manifest" href="manifest.json" />
+  <!-- App Manifest Original -->
+  <!-- <link rel="manifest" href="manifest.json" /> --> 
+
+  <!-- App Manifest Updated- full path - not relative -->
+  <link rel="manifest" href="/ZetteNote/manifest.json">
+
 
   <!-- Google Fonts - Fira Sans & Fira Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +25,7 @@
 
   <!-- App Icons -->
   <link rel="icon" href="icons/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/ZetteNote/icons/icon-192.png">
 
   <!-- Theme color for browser and PWA UI -->
   <meta name="theme-color" content="#2b2b2b">
@@ -29,6 +34,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ZetteNote">
+
 </head>
 
 <body>
